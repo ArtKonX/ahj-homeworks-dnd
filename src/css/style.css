@@ -1,0 +1,12 @@
+body {
+    background-color: rgba(16, 99, 224, 0.792);
+    margin: 0;
+}
+
+#app {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}

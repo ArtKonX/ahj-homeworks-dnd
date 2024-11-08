@@ -1,0 +1,24 @@
+.trello-textarea {
+    background-color: #fff;
+    font-size: 1rem;
+    line-height: 1.25;
+    width: 100%;
+    min-height: 100px;
+    padding: .5rem;
+    box-sizing: border-box;
+    resize: none;
+    border-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border: none;
+    margin-bottom: 8px;
+    color: rgb(163, 161, 161);
+}
+
+.trello-textarea::placeholder {
+    color: rgb(163, 161, 161);
+}
+
+.trello-textarea:focus {
+    outline: none;
+    border: none;
+}

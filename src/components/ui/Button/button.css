@@ -1,0 +1,63 @@
+.btn-add-form {
+    background-color: transparent;
+    border: none;
+    font-size: 1.1rem;
+    padding: 6px;
+    box-sizing: border-box;
+    transition: 1s;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-add-form_hidden {
+    display: none;
+}
+
+.btn-add-form:hover {
+    background-color: rgb(173, 169, 169);
+    transition: 1s;
+}
+
+.btn-add {
+    margin-right: 10px;
+    background-color: rgb(21, 169, 21);
+    border: 2px solid transparent;
+    padding: 7px 30px;
+    font-size: 1rem;
+    border-radius: 5px;
+    color: white;
+    transition: 0.5s;
+    cursor: pointer;
+}
+
+.btn-add:hover {
+    background-color: white;
+    border: 2px solid rgb(21, 169, 21);
+    color: rgb(21, 169, 21);
+    transition: 0.5s;
+}
+
+.btn-reset {
+    font-size: 1.4rem;
+    color: rgb(122, 117, 117);
+    background-color: transparent;
+    border: none;
+    transition: 0.5s;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-reset:hover {
+    color: white;
+    transition: 0.5s;
+    background-color: rgb(173, 169, 169);
+}
+
+.btn-del {
+    display: none;
+}

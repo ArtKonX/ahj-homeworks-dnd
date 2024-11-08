@@ -1,0 +1,16 @@
+.trello-column-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    height: 280px;
+    max-height: 100%;
+}
+
+div .shadow {
+    background-color: rgb(192, 190, 190);
+    color: rgb(192, 190, 190);
+}
+
+div .shadow:hover>.btn-del {
+    display: none;
+}

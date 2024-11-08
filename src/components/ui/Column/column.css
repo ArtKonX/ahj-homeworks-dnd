@@ -1,0 +1,14 @@
+.trello-column {
+    background-color: rgb(214, 210, 210);
+    width: calc(100% / 3 - 20px);
+    max-width: calc(100% / 3 - 20px);
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px;
+    height: min-content;
+    position: relative;
+}
+
+.trello-column:not(:last-child) {
+    margin-right: 20px;
+}

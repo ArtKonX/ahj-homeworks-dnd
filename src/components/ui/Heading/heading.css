@@ -1,0 +1,10 @@
+.trello-column-title {
+    text-align: left;
+    font-size: 1.4rem;
+    margin: 0;
+    margin-bottom: 20px;
+}
+
+.trello-card-title {
+    margin: 0;
+}
