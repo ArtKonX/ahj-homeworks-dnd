@@ -28,9 +28,20 @@ export default class StateApp {
   }
 
   addCardInList(cardIndex, column, cardId, cardTitle) {
-    this._stateTrello[column].splice(cardIndex, 0, {
-      id: cardId,
-      title: cardTitle,
+    if (!this._stateTrello[column]) return;
+    const listColumsCardsId = [];
+
+    Object.keys(this._stateTrello).forEach((column) => {
+      this._stateTrello[column].forEach((card) =>
+        listColumsCardsId.push(card.id),
+      );
     });
+
+    if (listColumsCardsId.findIndex((id) => id == cardId) === -1) {
+      this._stateTrello[column].splice(cardIndex, 0, {
+        id: cardId,
+        title: cardTitle,
+      });
+    }
   }
 }

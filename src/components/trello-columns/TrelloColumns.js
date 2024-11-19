@@ -79,15 +79,7 @@ export default class TrelloColumns {
       evt.preventDefault();
 
       this.activeElement = this.parentEl.querySelector(`.draggable`);
-      this.activeElement.style.cursor = "grabbing";
       const currentElement = evt.target;
-      const isMoveable =
-        this.activeElement !== currentElement &&
-        currentElement.classList.contains(`trello-card`);
-
-      if (!isMoveable) {
-        return;
-      }
 
       const nextElement = getNextElement(evt.clientY, currentElement);
 
@@ -103,23 +95,42 @@ export default class TrelloColumns {
         evt.target.closest(".trello-card").classList.remove("droppable");
 
       const column = evt.target.closest(".column-content");
-      column.insertBefore(this.activeElement, nextElement);
 
-      this.index = [
-        ...evt.target
+      if (!column?.innerHTML) {
+        if (column) {
+          column.appendChild(this.activeElement);
+        }
+      }
+
+      if (
+        this.activeElement !== currentElement &&
+        currentElement.classList.contains(`trello-card`)
+      ) {
+        evt.target
           .closest(".column-content")
-          .querySelectorAll(".trello-card"),
-      ].indexOf(this.activeElement);
+          .insertBefore(this.activeElement, nextElement);
+      }
+
+      if (
+        evt?.target &&
+        evt.target.closest(".column-content") &&
+        evt.target.closest(".column-content").querySelectorAll(".trello-card")
+      ) {
+        const cards = evt.target
+          .closest(".column-content")
+          .querySelectorAll(".trello-card");
+        this.index = Array.from(cards).indexOf(this.activeElement);
+      }
     });
 
     this.parentEl.addEventListener(`drop`, (evt) => {
       this.activeElement.style.cursor = "pointer";
 
-      const activeElementId = this.activeElement.id;
       const column = evt.target.closest(".column-content");
 
       if (!column) return;
 
+      const activeElementId = this.activeElement.id;
       const title = column.previousElementSibling;
       const cardTitle = this.activeElement.querySelector(".trello-card-title");
       this.stateApp.delete(this.column, this.activeElement.id);
@@ -130,14 +141,16 @@ export default class TrelloColumns {
         activeElementId,
         cardTitle.textContent,
       );
+
       this.stateApp.save();
     });
 
     this.parentEl.addEventListener("dragenter", (e) => {
       e;
       const card = this.parentEl.querySelector(".draggable");
+      const column = e.target.closest(".column-content");
 
-      if (card) {
+      if (column) {
         card.classList.add("shadow");
       }
     });

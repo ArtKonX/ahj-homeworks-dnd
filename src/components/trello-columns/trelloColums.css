@@ -14,3 +14,8 @@ div .shadow {
 div .shadow:hover>.btn-del {
     display: none;
 }
+
+.column-content {
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
