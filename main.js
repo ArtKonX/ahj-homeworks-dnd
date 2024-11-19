@@ -27,10 +27,17 @@ class StateApp {
     });
   }
   addCardInList(cardIndex, column, cardId, cardTitle) {
-    this._stateTrello[column].splice(cardIndex, 0, {
-      id: cardId,
-      title: cardTitle
+    if (!this._stateTrello[column]) return;
+    const listColumsCardsId = [];
+    Object.keys(this._stateTrello).forEach(column => {
+      this._stateTrello[column].forEach(card => listColumsCardsId.push(card.id));
     });
+    if (listColumsCardsId.findIndex(id => id == cardId) === -1) {
+      this._stateTrello[column].splice(cardIndex, 0, {
+        id: cardId,
+        title: cardTitle
+      });
+    }
   }
 }
 ;// ./src/components/ui/Div/Div.js
@@ -368,26 +375,31 @@ class TrelloColumns {
     this.parentEl.addEventListener(`dragover`, evt => {
       evt.preventDefault();
       this.activeElement = this.parentEl.querySelector(`.draggable`);
-      this.activeElement.style.cursor = "grabbing";
       const currentElement = evt.target;
-      const isMoveable = this.activeElement !== currentElement && currentElement.classList.contains(`trello-card`);
-      if (!isMoveable) {
-        return;
-      }
       const nextElement = getNextElement(evt.clientY, currentElement);
       if (nextElement && this.activeElement === nextElement.previousElementSibling || this.activeElement === nextElement) {
         return;
       }
       if (evt.target.closest(".trello-card")) evt.target.closest(".trello-card").classList.remove("droppable");
       const column = evt.target.closest(".column-content");
-      column.insertBefore(this.activeElement, nextElement);
-      this.index = [...evt.target.closest(".column-content").querySelectorAll(".trello-card")].indexOf(this.activeElement);
+      if (!column?.innerHTML) {
+        if (column) {
+          column.appendChild(this.activeElement);
+        }
+      }
+      if (this.activeElement !== currentElement && currentElement.classList.contains(`trello-card`)) {
+        evt.target.closest(".column-content").insertBefore(this.activeElement, nextElement);
+      }
+      if (evt?.target && evt.target.closest(".column-content") && evt.target.closest(".column-content").querySelectorAll(".trello-card")) {
+        const cards = evt.target.closest(".column-content").querySelectorAll(".trello-card");
+        this.index = Array.from(cards).indexOf(this.activeElement);
+      }
     });
     this.parentEl.addEventListener(`drop`, evt => {
       this.activeElement.style.cursor = "pointer";
-      const activeElementId = this.activeElement.id;
       const column = evt.target.closest(".column-content");
       if (!column) return;
+      const activeElementId = this.activeElement.id;
       const title = column.previousElementSibling;
       const cardTitle = this.activeElement.querySelector(".trello-card-title");
       this.stateApp.delete(this.column, this.activeElement.id);
@@ -397,7 +409,8 @@ class TrelloColumns {
     this.parentEl.addEventListener("dragenter", e => {
       e;
       const card = this.parentEl.querySelector(".draggable");
-      if (card) {
+      const column = e.target.closest(".column-content");
+      if (column) {
         card.classList.add("shadow");
       }
     });
